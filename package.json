@@ -1,23 +1,37 @@
 {
-  "name": "client-rest",
+  "name": "nextjs-rest",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
+    "debug": "NODE_OPTIONS='--inspect' next dev -p 4000",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p 4000",
+    "lint": "next lint",
+    "stylelint": "stylelint \"**/*.css\" --fix"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.8",
+    "@mui/styled-engine-sc": "^5.11.0",
     "@next/font": "13.1.6",
-    "@types/node": "18.13.0",
+    "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "antd": "^5.2.0",
+    "classnames": "^2.3.1",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
     "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.5.1"
   }
 }
