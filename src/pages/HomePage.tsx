@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchProductsQuery } from "../store/products/products.api"
+import { useLazyGetProductByIDQuery, useSearchProductsQuery } from "../store/products/products.api"
 import { useDebounce } from "../hooks/debounce"
 
 export const HomePage = () => {
@@ -7,13 +7,23 @@ export const HomePage = () => {
   const debounced = useDebounce(search)
   const [dropdown, setDropdown] = useState(false); 
   const {isLoading, isError, data} = useSearchProductsQuery(debounced, {
-    skip: debounced.length < 3
+    skip: debounced.length < 3,
+    refetchOnFocus: true,
   })
+
+  const [fetchProduct, {
+    isLoading: areProductLoading,
+    data: product
+  }] = useLazyGetProductByIDQuery()
 
   useEffect(() => {
     setDropdown(debounced.length > 3 && data?.length! > 0)
   }, [debounced, data])
-  
+
+  const clickHandler = (slug: string) => {
+    fetchProduct(slug);  
+  }
+
   return (
     <div className="flex justify-center pt-10 mx-auto h-screen w-screen">
       { isError && <p className="text-center text-red-600">Something went wrong...</p> }
@@ -31,10 +41,15 @@ export const HomePage = () => {
           { data?.map(product => (
             <li 
               key={product.id}
+              onClick={() => clickHandler(product.slug)}
               className="py-2 px-4 hover:bg-gray-500 hover:text-white transition-colors cursor-pointer"
             >{ product.title }</li>
           )) }
         </ul>}
+        <div className="container">
+          { areProductLoading && <p className="text-center">Repos are loading...</p> }
+          { product?.map(p => <p key={p.id}>{p.amount}</p>) }
+        </div>
       </div>
     </div>
   )

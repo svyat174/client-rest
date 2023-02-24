@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { productApi } from "./products/products.api";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
   reducer: {
@@ -8,3 +9,5 @@ export const store = configureStore({
   devTools: true,
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(productApi.middleware)
 })
+
+setupListeners(store.dispatch)
