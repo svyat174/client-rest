@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLazyGetProductByIDQuery, useSearchProductsQuery } from "../store/products/products.api"
 import { useDebounce } from "../hooks/debounce"
+import { Item } from "../components/Item"
 
 export const HomePage = () => {
   const [search, setSearch] = useState('')
@@ -21,7 +22,8 @@ export const HomePage = () => {
   }, [debounced, data])
 
   const clickHandler = (slug: string) => {
-    fetchProduct(slug);  
+    fetchProduct(slug);
+    setDropdown(false)
   }
 
   return (
@@ -48,7 +50,7 @@ export const HomePage = () => {
         </ul>}
         <div className="container">
           { areProductLoading && <p className="text-center">Repos are loading...</p> }
-          { product?.map(p => <p key={p.id}>{p.amount}</p>) }
+          { product?.map(p => <Item order={p} key={p.id}/>) }
         </div>
       </div>
     </div>

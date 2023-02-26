@@ -1,19 +1,20 @@
-import { useEffect } from "react"
-import { useGetAllProductsQuery } from "../store/products/products.api"
+import { useAppSelector } from "../hooks/redux"
+
 
 export const FavouritesPage = () => {
-  const {isError, isLoading, data} = useGetAllProductsQuery('')
+  const {favourites} =  useAppSelector(state => state.prod)
 
-  useEffect(() => {
+  if (favourites.length === 0) {
+    return <p className="text-center">No Items</p>
+  }
 
-  }, [])
   return (
-    <>
-    <div className="font-bold">
-      { isError && <p>ERROR</p> }
-      { isLoading && <p>Loading...</p> }
-      { data?.map(p => <p key={p.id}>{p.title}</p>) }
-    </div>
-    </>
+    <ul className="list-none">
+      { favourites.map(f => (
+        <li key={f}>
+          <p className="text-thin">{f}</p>
+        </li>
+      )) }
+    </ul>
   )
 }
